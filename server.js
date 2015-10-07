@@ -10,7 +10,7 @@ app.post('/', function(req, res){
   res.send();
 });
 
-var AppView = require('./components/app.react.js');
+var AppView = require('./components/app.jsx');
 
 app.use('/', function(req, res) {
   res.setHeader('Content-Type', 'text/html');
