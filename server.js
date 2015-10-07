@@ -1,12 +1,30 @@
 var app = require('express')();
 var http = require('http').Server(app);
-
-app.get('/', function(req, res){
-  res.sendFile(__dirname + '/index.html');
-});
+var browserify = require('browserify');
+var React = require('react');
+var ReactDOMServer = require('react-dom/server');
+var jsx = require('node-jsx');
+jsx.install();
 
 app.post('/', function(req, res){
   res.send();
+});
+
+var AppView = require('./components/app.react.js');
+
+app.use('/', function(req, res) {
+  res.setHeader('Content-Type', 'text/html');
+  res.end(ReactDOMServer.renderToStaticMarkup(
+    React.DOM.body(
+      null,
+      React.DOM.div({
+        id: 'app',
+        dangerouslySetInnerHTML: {
+          __html: ReactDOMServer.renderToString(React.createElement(AppView))
+        }
+      })
+    )
+  ));
 });
 
 http.listen(3030, function(){

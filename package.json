@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "humanity will pay",
   "dependencies": {
-    "express": "^4.10.2"
+    "browserify": "^11.2.0",
+    "express": "^4.10.2",
+    "node-jsx": "^0.13.3",
+    "react": "^0.14.0",
+    "react-dom": "^0.14.0"
   }
 }
