@@ -1,0 +1,8 @@
+{
+  "name": "three-seashells",
+  "version": "0.0.1",
+  "description": "humanity will pay",
+  "dependencies": {
+    "express": "^4.10.2"
+  }
+}
