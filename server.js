@@ -6,10 +6,6 @@ var ReactDOMServer = require('react-dom/server');
 var jsx = require('node-jsx');
 jsx.install();
 
-app.post('/', function(req, res){
-  res.send();
-});
-
 var AppView = require('./components/app.jsx');
 
 app.use('/', function(req, res) {

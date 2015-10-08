@@ -1,15 +1,15 @@
 var React = require('react');
+var Puppy = require('./puppy.jsx');
 
 var App = React.createClass({
-
   render: function() {
     return (
       <div id="app">
-        <input type="text" x-webkit-speech />
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/VnmlXYGPB14?autoplay=1" frameBorder="0" allowFullScreen></iframe>
+        <Puppy />
       </div>
     );
   }
+
 });
 
 module.exports = App;

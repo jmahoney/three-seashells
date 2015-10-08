@@ -1,0 +1,42 @@
+<html>
+<head>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.0.0/annyang.min.js"></script>
+  <script>
+  var Internet = {
+    get: function(url, callback, err) {
+            err = err || function(_) {}
+            var request = new XMLHttpRequest();
+          	request.open("GET", url, true);
+          	request.onreadystatechange = function () {
+	          if (4 == request.readyState) {
+                    if (200 == request.status) {
+    		    callback(request.responseText);
+                    } else { err(request); }
+    	    }
+    	};
+    	request.send();
+        }
+    };
+
+  if (annyang) {
+    // Let's define our first command. First the text we expect, and then the function it should call
+    var commands = {
+      '*term': function(term) {
+          Internet.get("/level?term=" + term, function(response){
+            console.log(response);
+          });
+        }
+      };
+
+    // Add our commands to annyang
+    annyang.addCommands(commands);
+
+    // Start listening. You can call this here, or attach this call to an event, button, etc.
+    annyang.start();
+  }
+  </script>
+</head>
+<body>
+
+</body>
+</html>
