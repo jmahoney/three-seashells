@@ -1,6 +1,10 @@
 {
   "name": "three-seashells",
   "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jmahoney/three-seashells"
+  },
   "description": "humanity will pay",
   "dependencies": {
     "babel": "^5.8.23",
@@ -11,6 +15,7 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "supervisor": "^0.9.1",
-    "verbal-morality": "^0.2.0"
+    "verbal-morality": "^0.2.0",
+    "industry-bullshit": "^0.3.0"
   }
 }

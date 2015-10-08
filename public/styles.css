@@ -1,0 +1,28 @@
+.container {
+  text-align: center;
+  display: block;
+  width: 80%;
+  margin: auto;
+}
+.full {
+  display: block;
+  width: 80%;
+  padding:40px;
+}
+.half {
+  width: 50%;
+  float: left;
+}
+body {
+    background-color: #14b5ea;
+    color: #FFF;
+    height: 100%;
+    margin: 0;
+    width: 100%;
+}
+html {
+    height: 100%;
+    width: 100%;
+    font-family: sans-serif;
+    font-size: 48px;
+}
