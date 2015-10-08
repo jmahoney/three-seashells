@@ -4,7 +4,7 @@ var morality = require('verbal-morality');
 
 app.get('/level', (req, res) => {
   let score = morality(req.query.term);
-  let message = ' is completely moral';
+  let message = '';
   switch(score) {
     case 1:
       message = ' is slightly immoral. Be careful, this is a pee see work environment';
