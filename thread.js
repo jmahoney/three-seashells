@@ -1,6 +1,7 @@
 var app = require('express')();
-var http = require('http').Server(app);
 var morality = require('verbal-morality');
+var https = require('https'),
+    fs = require('fs');
 
 app.get('/level', (req, res) => {
   let score = morality(req.query.term);
@@ -23,4 +24,12 @@ app.get('/level', (req, res) => {
 
 app.get('/', (req, res) => res.sendFile(__dirname + "/index.html"));
 
-http.listen(3030, () => console.log('listening on *:3030'));
+var secureServer = https.createServer({
+    key: fs.readFileSync('./ssl/server.key'),
+    cert: fs.readFileSync('./ssl/server.crt'),
+    ca: fs.readFileSync('./ssl/ca.crt'),
+    requestCert: true,
+    rejectUnauthorized: false
+}, app).listen('3030', function() {
+    console.log("Secure Express server listening on port 3030");
+});
