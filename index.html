@@ -1,6 +1,7 @@
 <html>
 <head>
   <script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.0.0/annyang.min.js"></script>
+  <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
   <script>
   var Internet = {
     get: function(url, callback, err) {
@@ -23,7 +24,7 @@
     var commands = {
       '*term': function(term) {
           Internet.get("/level?term=" + term, function(response){
-            console.log(response);
+            responsiveVoice.speak(response);
           });
         }
       };
