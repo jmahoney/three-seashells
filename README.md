@@ -7,7 +7,7 @@ Then humanity will pay
 
 ### What is it?! Tell me!
 
-This is a project for #XploreXero 2015. The aim: to monitor ambient conversation and to enforce the [Verbal Morality Statute](verbal morality statute).
+This is a project for #XploreXero 2015. The aim: to monitor ambient conversation and to enforce the [Verbal Morality Statute](https://www.youtube.com/watch?v=5rVQGT01Kzg).
 
 ### Tools & technology
 
