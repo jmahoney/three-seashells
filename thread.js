@@ -1,9 +1,10 @@
 var app = require('express')();
 var http = require('http').Server(app);
 var morality = require('verbal-morality');
+var bullshit = require('industry-bullshit');
 
 app.get('/level', (req, res) => {
-  let score = morality(req.query.term);
+  let score = morality(req.query.term) + (bullshit.score(req.query.term) * 2);
   let message = '';
   switch(score) {
     case 1:

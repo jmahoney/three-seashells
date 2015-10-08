@@ -10,6 +10,7 @@
     "node-jsx": "^0.13.3",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
-    "verbal-morality": "^0.2.0"
+    "verbal-morality": "^0.2.0",
+    "industry-bullshit": "^0.1.0"
   }
 }
