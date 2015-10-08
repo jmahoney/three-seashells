@@ -4,6 +4,37 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.0.0/annyang.min.js"></script>
   <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
   <script>
+  moralityLevel = 0;
+  bullshitLevel = 0;
+
+  function updateMoralityLevelUI() {
+    console.log("updating morality level ui");
+    console.log("b: " + bullshitLevel + " m: " + moralityLevel);
+    var levelText = "";
+    var levelColor = "";
+    switch (moralityLevel) {
+      case 0:
+        levelText = "acceptable";
+        levelColor = "";
+        break;
+      case 2:
+        levelText = "at risk";
+        levelColor = "yellow";
+        break;
+      case 3:
+        levelText = "unacceptable";
+        levelColor = "orange";
+      default:
+        levelText = "intolerable";
+        levelColor = "red";
+        break;
+    }
+
+    var x = document.getElementById('morality-level');
+    x.style.color = levelColor;
+    x.style.innerHTML = levelText;
+  }
+
   var Internet = {
     get: function(url, callback, err) {
             err = err || function(_) {}
@@ -60,10 +91,15 @@
     var commands = {
       '*term': function(term) {
           Internet.get("/level?term=" + term, function(response){
-            responsiveVoice.speak(response);
-            if(response.indexOf("fine") >= 0){
-              getPuppy();
+            //responsiveVoice.speak(response);
+            if (response.moralityLevel == 0) {
+              if (moralityLevel < 0) {
+                moralityLevel = moralityLevel -= 1;
+              }
+            } else {
+              moralityLevel = moralityLevel += response.moralityLevel;
             }
+            updateMoralityLevelUI();
           });
         }
       };
@@ -82,7 +118,7 @@
     <div id="nonsense" class="half">
       <p>Nonsense level: <span id="nonsense-level">Stable</span></p>
     </div>
-    <div id="latest-fine" class="full">
+    <div id="latest-fine" class="full" style="display:none;">
       <p id="offending-text">"f*****g Team City is s**t"</p>
       <p id="fine-level">is unnaceptably immoral</p>
       <p>You have been fined $<span id="fine-amount">2</span> for breach of the Verbal Morality Statute.</p>
