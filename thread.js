@@ -7,34 +7,15 @@ var https = require('https'),
 
 app.use(express.static('public'));
 
-app.get('/level', (req, res) => {
-  let score = morality(req.query.term) + (bullshit.score(req.query.term) * 2);
-  let message = '';
-  switch(score) {
-    case 1:
-      message = ' is slightly immoral. Be careful, this is a pee see work environment';
-      break;
-    case 2:
-      message = ' is immoral. You are running the risk of being fined';
-      break;
-    case 3:
-    case 4:
-    case 5:
-      message = ' is significantly immmoral. A fine has been issued.';
-      break;
-  }
-  res.send(req.query.term + message);
-});
-
-
 app.get('/listen', (req, res) => {
   let moralityLevel = morality(req.query.term);
   let moralityFine = moralityLevel;
-  let moralityText = moralityLevel > 3 ? "intolerably immoral" : "unnacceptably immoral";
+  let moralityText = moralityLevel > 3 ? 'intolerably immoral' : 'unnacceptably immoral';
   let bullshitScore = bullshit.score(req.query.term);
-  let bullshitText = bullshitScore > 3 ? "is complete nonsense" : "sounds a bit nonsensical";
+  let bullshitText = bullshitScore > 3 ? 'is complete nonsense' : 'sounds a bit nonsensical';
 
   res.json({
+    text: req.query.term,
     moralityLevel: moralityLevel,
     moralityFine: moralityFine,
     moralityText: moralityText,

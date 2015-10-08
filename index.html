@@ -7,32 +7,23 @@
   moralityLevel = 0;
   bullshitLevel = 0;
 
-  function updateMoralityLevelUI() {
+  function updateMoralityLevelUI(reply) {
     console.log("updating morality level ui");
-    console.log("b: " + bullshitLevel + " m: " + moralityLevel);
-    var levelText = "";
-    var levelColor = "";
-    switch (moralityLevel) {
-      case 0:
-        levelText = "acceptable";
-        levelColor = "";
-        break;
-      case 2:
-        levelText = "at risk";
-        levelColor = "yellow";
-        break;
-      case 3:
-        levelText = "unacceptable";
-        levelColor = "orange";
-      default:
-        levelText = "intolerable";
-        levelColor = "red";
-        break;
+    console.log("b: " + reply.bullshitLevel + " m: " + reply.moralityLevel);
+
+    if(reply.moralityLevel > 0){
+      addConsoleLine(reply.moralityText, reply.moralityLevel, moralityLevel);
+    } else {
+      addConsoleLine('acceptable morality level', '-1', moralityLevel);
     }
 
-    var x = document.getElementById('morality-level');
-    x.style.color = levelColor;
-    x.style.innerHTML = levelText;
+    if(reply.bullshitScore > 0){
+      addConsoleLine(reply.bullshitText, reply.bullshitScore, bullshitLevel);
+    } else {
+      addConsoleLine('acceptable nonsense level', '-1', bullshitLevel);
+    }
+
+    addConsoleTextLine(reply.text);
   }
 
   var Internet = {
@@ -51,29 +42,6 @@
         }
     };
 
-  function getPuppy(){
-    q = "puppy";
-
-    request = new XMLHttpRequest;
-    request.open('GET', 'http://api.giphy.com/v1/gifs/random?api_key=dc6zaTOxFJmzC&tag='+q, true);
-
-    request.onload = function() {
-      if (request.status >= 200 && request.status < 400){
-        data = JSON.parse(request.responseText).data.image_url;
-        console.log(data);
-        document.getElementById("puppy").innerHTML += '<center><img src = "'+data+'"  title="GIF via Giphy"></center>';
-      } else {
-        console.log('reached giphy, but API returned an error');
-       }
-    };
-
-    request.onerror = function() {
-      console.log('connection error');
-    };
-
-    request.send();
-  }
-
   if (annyang) {
     annyang.debug();
     annyang.addCallback('error', function () {
@@ -90,16 +58,24 @@
     });
     var commands = {
       '*term': function(term) {
-          Internet.get("/level?term=" + term, function(response){
-            //responsiveVoice.speak(response);
-            if (response.moralityLevel == 0) {
-              if (moralityLevel < 0) {
-                moralityLevel = moralityLevel -= 1;
+          Internet.get("/listen?term=" + term, function(response){
+            var reply = JSON.parse(response);
+            if (reply.moralityLevel == 0) {
+              if (moralityLevel > 0) {
+                moralityLevel = moralityLevel - 1;
               }
             } else {
-              moralityLevel = moralityLevel += response.moralityLevel;
+              moralityLevel = moralityLevel + reply.moralityLevel;
             }
-            updateMoralityLevelUI();
+
+            if (reply.bullshitScore == 0) {
+              if (bullshitLevel > 0) {
+                bullshitLevel = bullshitLevel - 1;
+              }
+            } else {
+              bullshitLevel = bullshitLevel + reply.bullshitScore;
+            }
+            updateMoralityLevelUI(reply);
           });
         }
       };
@@ -108,21 +84,46 @@
     annyang.setLanguage("en-NZ");
     annyang.start({ autoRestart: true, continuous: false });
   }
+  function AddZero(num) {
+    return (num >= 0 && num < 10) ? "0" + num : num + "";
+  }
+
+  function addConsoleTextLine(message){
+    var line = document.createElement("div");
+    line.className = "console-line";
+    line.innerHTML = "> " + message + "...";
+
+    var container = document.getElementById('console-container');
+    container.insertBefore(line, container.firstChild);
+  }
+
+  function addConsoleLine(text, score, total){
+    var line = document.createElement("div");
+    line.className = "console-line";
+
+    var message = document.createElement("div");
+    message.className = "console-message";
+    message.innerHTML =  "> " + text;
+    line.appendChild(message);
+
+    var scoreDiv = document.createElement("div");
+    scoreDiv.className = "console-score";
+    scoreDiv.innerHTML = score;
+    line.appendChild(scoreDiv);
+
+    var totalDiv = document.createElement("div");
+    totalDiv.className = "console-score";
+    totalDiv.innerHTML = total;
+    line.appendChild(totalDiv);
+
+    var container = document.getElementById('console-container');
+    container.insertBefore(line, container.firstChild);
+  }
   </script>
 </head>
 <body>
-  <div class="container">
-    <div id="morality" class="half">
-      <p>Morality level: <span id="morality-level">Acceptable</span></p>
-    </div>
-    <div id="nonsense" class="half">
-      <p>Nonsense level: <span id="nonsense-level">Stable</span></p>
-    </div>
-    <div id="latest-fine" class="full" style="display:none;">
-      <p id="offending-text">"f*****g Team City is s**t"</p>
-      <p id="fine-level">is unnaceptably immoral</p>
-      <p>You have been fined $<span id="fine-amount">2</span> for breach of the Verbal Morality Statute.</p>
-    </div>
-  </div>
+  <div id='dash'></div>
+  <div class="console-line"> >>>>>>>>>>>>>>>>The immoral will be punished!<<<<<<<<<<<<<<<< </div>
+  <div id="console-container" class="container"></div>
 </body>
 </html>

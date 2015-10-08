@@ -16,6 +16,6 @@
     "react-dom": "^0.14.0",
     "supervisor": "^0.9.1",
     "verbal-morality": "^0.2.0",
-    "industry-bullshit": "^0.3.0"
+    "industry-bullshit": "^0.4.0"
   }
 }
