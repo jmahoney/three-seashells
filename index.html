@@ -4,26 +4,50 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.0.0/annyang.min.js"></script>
   <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
   <script>
-  moralityLevel = 0;
-  bullshitLevel = 0;
+  var moralityLevel = 0;
+  var bullshitLevel = 0;
+  var fines = 0;
 
   function updateMoralityLevelUI(reply) {
     console.log("updating morality level ui");
     console.log("b: " + reply.bullshitLevel + " m: " + reply.moralityLevel);
 
+    document.getElementById("morality").innerHTML = moralityLevel;
+    document.getElementById("nonsense").innerHTML = bullshitLevel;
+
+
     if(reply.moralityLevel > 0){
+      fines = fines + reply.moralityLevel;
       addConsoleLine(reply.moralityText, reply.moralityLevel, moralityLevel);
     } else {
       addConsoleLine('acceptable morality level', '-1', moralityLevel);
     }
 
     if(reply.bullshitScore > 0){
+      fines = fines + reply.bullshitScore;
       addConsoleLine(reply.bullshitText, reply.bullshitScore, bullshitLevel);
     } else {
       addConsoleLine('acceptable nonsense level', '-1', bullshitLevel);
     }
 
+    if(moralityLevel > 3) {
+      document.getElementById("morality").style.color = "red";
+    } else {
+      document.getElementById("morality").style.color = "white";
+    }
+
+    if(bullshitLevel > 3) {
+      document.getElementById("nonsense").style.color = "red";
+    } else {
+      document.getElementById("nonsense").style.color = "white";
+    }
+
+    document.getElementById("fines").innerHTML = fines;
+
     addConsoleTextLine(reply.text);
+    if(moralityLevel > 5) {
+      window.location.replace("https://www.youtube.com/embed/VnmlXYGPB14?autoplay=true");
+    }
   }
 
   var Internet = {
@@ -122,7 +146,14 @@
   </script>
 </head>
 <body>
-  <div id='dash'></div>
+  <div id='dash'>
+    <div class="title">Immorality:</div>
+    <div class="score"><span id="morality">0</span></div>
+    <div class="title">Nonsense:</div>
+    <div class="score"><span id="nonsense">0</span></div>
+    <div class="title">Fines:</div>
+    <div class="score"><span id="fines">0</span></div>
+  </div>
   <div class="console-line"> >>>>>>>>>>>>>>>>The immoral will be punished!<<<<<<<<<<<<<<<< </div>
   <div id="console-container" class="container"></div>
 </body>
