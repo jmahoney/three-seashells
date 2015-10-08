@@ -4,21 +4,21 @@ var morality = require('verbal-morality');
 
 app.get('/level', (req, res) => {
   let score = morality(req.query.term);
-  let message = 'You are a completely moral being';
+  let message = ' is completely moral';
   switch(score) {
     case 1:
-      message = 'Be careful, this is a pee see work environment';
+      message = ' is slightly immoral. Be careful, this is a pee see work environment';
       break;
     case 2:
-      message = 'You are running the risk of being fined';
+      message = ' is immoral. You are running the risk of being fined';
       break;
     case 3:
     case 4:
     case 5:
-      message = 'A fine has been issued. Please proceed to the proctor';
+      message = ' is significantly immmoral. A fine has been issued.';
       break;
   }
-  res.send(message);
+  res.send(req.query.term + message);
 });
 
 app.get('/', (req, res) => res.sendFile(__dirname + "/index.html"));
