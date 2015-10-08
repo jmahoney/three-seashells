@@ -25,6 +25,23 @@ app.get('/level', (req, res) => {
   res.send(req.query.term + message);
 });
 
+
+app.get('/listen', (req, res) => {
+  let moralityLevel = morality(req.query.term);
+  let moralityFine = moralityLevel > 1 ? moralityLevel : 0;
+  let moralityText = moralityLevel > 3 ? "intolerably immoral" : "unnacceptably immoral";
+  let bullshitScore = bullshit.score(req.query.term);
+  let bullshitText = bullshitScore > 3 ? "is complete nonsense" : "sounds a bit nonsensical";
+
+  res.json({
+    moralityLevel: moralityLevel,
+    moralityFine: moralityFine,
+    moralityText: moralityText,
+    bullshitScore: bullshitScore,
+    bullshitText: bullshitText
+  });
+});
+
 app.get('/', (req, res) => res.sendFile(__dirname + "/index.html"));
 
 http.listen(3030, () => console.log('listening on *:3030'));
