@@ -10,9 +10,11 @@ Then humanity will pay
 This is a project for #XploreXero 2015. The aim: to monitor ambient conversation and to enforce the [Verbal Morality Statute](https://www.youtube.com/watch?v=5rVQGT01Kzg).
 
 ### To run:
-* git clone https://github.com/jmahoney/three-seashells.git
-* cd three-seashells
-* npm install
+```
+git clone https://github.com/jmahoney/three-seashells.git
+cd three-seashells
+npm install
+```
 
 ### Tools & technology
 
