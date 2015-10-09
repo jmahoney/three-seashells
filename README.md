@@ -14,6 +14,8 @@ This is a project for #XploreXero 2015. The aim: to monitor ambient conversation
 git clone https://github.com/jmahoney/three-seashells.git
 cd three-seashells
 npm install
+node app.js
+browse to https://localhost:3030 and enable your microphone
 ```
 
 ### Tools & technology
