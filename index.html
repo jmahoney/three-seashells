@@ -2,7 +2,6 @@
 <head>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/annyang/2.0.0/annyang.min.js"></script>
-  <script src='https://code.responsivevoice.org/responsivevoice.js'></script>
   <script>
   var moralityLevel = 0;
   var bullshitLevel = 0;
@@ -52,19 +51,19 @@
 
   var Internet = {
     get: function(url, callback, err) {
-            err = err || function(_) {}
-            var request = new XMLHttpRequest();
-          	request.open("GET", url, true);
-          	request.onreadystatechange = function () {
-	          if (4 == request.readyState) {
-                    if (200 == request.status) {
-    		    callback(request.responseText);
-                    } else { err(request); }
-    	    }
-    	};
-    	request.send();
+      err = err || function(_) {}
+      var request = new XMLHttpRequest();
+      request.open("GET", url, true);
+      request.onreadystatechange = function () {
+        if (4 == request.readyState) {
+          if (200 == request.status) {
+            callback(request.responseText);
+          } else { err(request); }
         }
-    };
+      };
+      request.send();
+    }
+  };
 
   if (annyang) {
     annyang.debug();
@@ -82,27 +81,27 @@
     });
     var commands = {
       '*term': function(term) {
-          Internet.get("/listen?term=" + term, function(response){
-            var reply = JSON.parse(response);
-            if (reply.moralityLevel == 0) {
-              if (moralityLevel > 0) {
-                moralityLevel = moralityLevel - 1;
-              }
-            } else {
-              moralityLevel = moralityLevel + reply.moralityLevel;
+        Internet.get("/listen?term=" + term, function(response){
+          var reply = JSON.parse(response);
+          if (reply.moralityLevel == 0) {
+            if (moralityLevel > 0) {
+              moralityLevel = moralityLevel - 1;
             }
+          } else {
+            moralityLevel = moralityLevel + reply.moralityLevel;
+          }
 
-            if (reply.bullshitScore == 0) {
-              if (bullshitLevel > 0) {
-                bullshitLevel = bullshitLevel - 1;
-              }
-            } else {
-              bullshitLevel = bullshitLevel + reply.bullshitScore;
+          if (reply.bullshitScore == 0) {
+            if (bullshitLevel > 0) {
+              bullshitLevel = bullshitLevel - 1;
             }
-            updateMoralityLevelUI(reply);
-          });
-        }
-      };
+          } else {
+            bullshitLevel = bullshitLevel + reply.bullshitScore;
+          }
+          updateMoralityLevelUI(reply);
+        });
+      }
+    };
 
     annyang.addCommands(commands);
     annyang.setLanguage("en-NZ");
